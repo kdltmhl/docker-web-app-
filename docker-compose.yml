@@ -1,0 +1,32 @@
+# docker-compose.yml
+
+# Definiert die Version der Docker Compose Syntax.
+version: '3.8'
+
+# 'services' ist der Bereich, in dem wir unsere Container definieren.
+# Wir haben vorerst nur einen Service, den wir 'app' nennen.
+services:
+  app:
+    # 'build: .' weist Docker Compose an, das Image für diesen Service
+    # aus dem Dockerfile im aktuellen Verzeichnis (.) zu bauen.
+    build: .
+
+    # 'ports' mappt einen Port von unserem Host-System (dein PC)
+    # auf einen Port im Container.
+    # Format: "HOST_PORT:CONTAINER_PORT"
+    # Anfragen an http://localhost:3000 auf deinem PC werden an
+    # Port 3000 im Container weitergeleitet, wo unsere App läuft.
+    ports:
+      - "3000:3000"
+
+    # 'volumes' synchronisiert einen Ordner auf deinem Host-System
+    # mit einem Ordner im Container. Das ist entscheidend für die Entwicklung!
+    # Format: "HOST_ORDNER:CONTAINER_ORDNER"
+    # Wenn du eine Datei auf deinem PC speicherst, wird sie sofort im
+    # Container aktualisiert, ohne dass du den Container neu bauen musst.
+    # Wir synchronisieren den aktuellen Ordner (.) mit dem Arbeitsverzeichnis
+    # im Container. Der Ordner 'node_modules' wird explizit ausgeschlossen,
+    # da dieser im Container verwaltet werden soll.
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
